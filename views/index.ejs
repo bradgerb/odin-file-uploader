@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="bodyContainer">
+    <%- include("partials/navbar.ejs") %>
+    <% if (locals.user) { %>
+      <div class="center">
+        <div class="cardContainer">
+          <% messages.forEach((message) => { %>
+            <div class="card">
+              <span class="content">
+                  <%= message.message %>
+                  <span class="deleteMessage">
+                    <% if (locals.user.isadmin) { %>
+                      <form action="/deleteMessage" method="POST">
+                        <button type="submit" name="message_id" value="<%= message.message_id %>" class="deleteMessageBtn"></button>
+                      </form>
+                    <% } %>
+                  </span>  
+              </span>
+              <hr>
+              <% if (locals.user.ismember) { %>
+                <span class="flexCenter">
+                  Posted by: <%= message.username %> &nbsp;
+                  <% if (locals.user.isadmin) { %>
+                    <form action="/banUser" method="POST">
+                      <button type="submit" name="user_id" value="<%= message.user_id %>" class="banUser"></button>
+                    </form>
+                  <% } %>
+                </span>
+                <span>Posted at: <%= message.date %></span>
+              <% } else { %>
+                <span class="blur">Posted by: <%= message.username %></span>
+                <span class="blur">Posted at: <%= message.date %></span>
+              <%}%>
+            </div>
+          <% }); %>
+        </div>
+      </div>
+    <% } else { %>
+      <div class="center">
+        <h1>Please log in</h1><br>
+        <%- include("partials/errors.ejs") %>
+        <form action="/log-in" method="POST">
+          <label for="username">Username</label>
+          <input id="username" name="username" placeholder="username" type="text" /><br><br>
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" /><br><br>
+          <button type="submit">Log in</button>
+        </form>
+      </div>
+    <%}%>
+  </div>
+</body>
