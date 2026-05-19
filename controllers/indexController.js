@@ -4,6 +4,7 @@ const { body, validationResult, matchedData } = require("express-validator");
 const passport = require("passport");
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require("bcryptjs");
+const prisma = require("../lib/prisma.js");
 
 const validateUser = [
     body("username").trim().escape().toLowerCase()
@@ -21,8 +22,7 @@ const validateUser = [
 passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
-      const rows = await db.getUserByUsername(username);
-      const user = rows[0];
+      const user = await prisma.user.findFirst({ where: { username } })
 
       if (!user) {
         return done(null, false, { message: "Username not found" });
@@ -44,8 +44,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
   try {
-    const rows = await db.getUserByID(id);
-    const user = rows[0];
+    const user = await prisma.user.findFirst({ where: { id: id } });
 
     done(null, user);
   } catch(err) {
@@ -53,24 +52,24 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-const usernameCheck = async (username)=> {
-  const test = await db.getUserByUsername(username.toLowerCase());
-  if (test.length > 0){
-    return true
-  } else {
-    return false
-  }
-}
+// const usernameCheck = async (username)=> {
+//   const test = await db.getUserByUsername(username.toLowerCase());
+//   if (test.length > 0){
+//     return true
+//   } else {
+//     return false
+//   }
+// }
 
 exports.indexGet = async (req, res) => {
     const errors = req.session.messages || [];
-    const messages = await db.getMessages();
+    // const messages = await db.getMessages();
     req.session.messages = [];
     res.render("index", { 
       title: 'Log in',
       user: req.user,
       errors: errors,
-      messages: messages,
+      // messages: messages,
      });
 };
 
@@ -83,7 +82,7 @@ exports.signUpPost = [
   async (req, res, next) => {
     const { username, password } = matchedData(req);
     const errors = validationResult(req);
-    const usernameExists = await usernameCheck(username);
+    // const usernameExists = await usernameCheck(username);
     let errorMsgArray = [];
 
     if(usernameExists){
@@ -102,7 +101,15 @@ exports.signUpPost = [
     } else {
     try {
       const hashedPassword = await bcrypt.hash(password, 10);
-      await db.newUser(username, hashedPassword);
+      await prisma.user.create({
+        data: {
+          username: username,
+          hashedPassword: hashedPassword
+        },
+        include: {
+          files: true
+        }
+      });
       res.redirect("/");
     } catch (error) {
         console.error(error);
