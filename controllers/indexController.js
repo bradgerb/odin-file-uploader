@@ -22,15 +22,15 @@ const validateUser = [
 passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
-      const user = await prisma.user.findFirst({ where: { username } })
+      const user = await prisma.user.findFirst({ where: { username: username } })
 
       if (!user) {
         return done(null, false, { message: "Username not found" });
       }
-        const match = await bcrypt.compare(password, user.password);
-        if (!match) {
+      const match = await bcrypt.compare(password, user.password);
+      if (!match) {
         return done(null, false, { message: "Incorrect username/password combination" })
-        }
+      }
       return done(null, user);
     } catch(err) {
       return done(err);
@@ -39,7 +39,7 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
-  done(null, user.user_id);
+  done(null, user.id);
 });
 
 passport.deserializeUser(async (id, done) => {
@@ -52,14 +52,11 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-// const usernameCheck = async (username)=> {
-//   const test = await db.getUserByUsername(username.toLowerCase());
-//   if (test.length > 0){
-//     return true
-//   } else {
-//     return false
-//   }
-// }
+const usernameCheck = async (username) => {
+  const test = await prisma.user.findFirst({ where: { username: username } });
+  //return boolean equivalent
+  return !!test;
+};
 
 exports.indexGet = async (req, res) => {
     const errors = req.session.messages || [];
@@ -82,7 +79,7 @@ exports.signUpPost = [
   async (req, res, next) => {
     const { username, password } = matchedData(req);
     const errors = validationResult(req);
-    // const usernameExists = await usernameCheck(username);
+    const usernameExists = await usernameCheck(username);
     let errorMsgArray = [];
 
     if(usernameExists){
@@ -104,7 +101,7 @@ exports.signUpPost = [
       await prisma.user.create({
         data: {
           username: username,
-          hashedPassword: hashedPassword
+          hashedpassword: hashedPassword
         },
         include: {
           files: true

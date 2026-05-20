@@ -32,3 +32,6 @@ app.listen(3000, (error) => {
   }
   console.log(`Odin file-uploader - listening on port ${PORT}!`);
 });
+
+// npx prisma studio --config ./prisma.config.js
+// npx prisma migrate dev

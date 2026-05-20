@@ -15,7 +15,7 @@ datasource db {
 model User { 
   id    Int     @id @default(autoincrement()) 
   username String  @unique
-  hashedpassword  String
+  password  String
   files File[]
 }
 

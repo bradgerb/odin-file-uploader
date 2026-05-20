@@ -1,11 +1,11 @@
-import { prisma } from './lib/prisma.js';
+const prisma = require("./lib/prisma.js");
 
 async function main() {
   // Create a new user with a post
   const user = await prisma.user.create({
     data: {
       username: "alice",
-      hashedpassword: "fakehashexample",
+      password: "fakeexample",
       files: {
         create: {
           title: "Hello World",
