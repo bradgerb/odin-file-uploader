@@ -101,7 +101,7 @@ exports.signUpPost = [
       await prisma.user.create({
         data: {
           username: username,
-          hashedpassword: hashedPassword
+          password: hashedPassword
         },
         include: {
           files: true
