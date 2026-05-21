@@ -9,8 +9,10 @@
   <div class="bodyContainer">
     <%- include("partials/navbar.ejs") %>
     <% if (locals.user) { %>
-      <div>Welcome back</div>
-      <div><%= locals.user.username %></div>
+      <div class="center">
+        <div>Welcome back</div>
+        <div><%= locals.user.username %></div>
+      </div>
     <% } else { %>
       <div class="center">
         <h1>Please log in</h1><br>

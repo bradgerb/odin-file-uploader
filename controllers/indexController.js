@@ -1,10 +1,10 @@
 // const db = require ('../db/queries');
 // const CustomNotFoundError = require("../errors/CustomNotFoundError");
-const { body, validationResult, matchedData } = require("express-validator");
-const passport = require("passport");
-const LocalStrategy = require('passport-local').Strategy;
-const bcrypt = require("bcryptjs");
-const prisma = require("../lib/prisma.js");
+import { body, validationResult, matchedData } from 'express-validator';
+import passport from 'passport';
+import { Strategy as LocalStrategy } from 'passport-local';
+import bcrypt from 'bcryptjs';
+import { prisma } from '../lib/prisma.js';
 
 const validateUser = [
     body("username").trim().escape().toLowerCase()
@@ -44,7 +44,15 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = await prisma.user.findFirst({ where: { id: id } });
+    //validation for id - bugfixing
+      if (!id) {
+        return done(null, null);
+      }
+      const parsedId = parseInt(id, 10);
+      if (isNaN(parsedId)) {
+        return done(null, null);
+      }
+    const user = await prisma.user.findFirst({ where: { id: parsedId } });
 
     done(null, user);
   } catch(err) {
@@ -58,7 +66,7 @@ const usernameCheck = async (username) => {
   return !!test;
 };
 
-exports.indexGet = async (req, res) => {
+const indexGet = async (req, res) => {
     const errors = req.session.messages || [];
     // const messages = await db.getMessages();
     req.session.messages = [];
@@ -70,11 +78,11 @@ exports.indexGet = async (req, res) => {
      });
 };
 
-exports.signUpGet = (req, res) => {
+const signUpGet = (req, res) => {
     res.render("sign-up-form", {title: 'Sign up'});
 };
 
-exports.signUpPost = [
+const signUpPost = [
   validateUser,
   async (req, res, next) => {
     const { username, password } = matchedData(req);
@@ -116,7 +124,7 @@ exports.signUpPost = [
   }
 ] 
 
-exports.logInPost = [
+const logInPost = [
   validateUser, 
   (req, res, next) => {
     passport.authenticate("local", {
@@ -127,7 +135,7 @@ exports.logInPost = [
   }
 ]
 
-exports.logOutPost = (req, res, next) => {
+const logOutPost = (req, res, next) => {
   req.logout((err) => {
     if (err) {
       return next(err);
@@ -135,3 +143,5 @@ exports.logOutPost = (req, res, next) => {
     res.redirect("/");
   });
 };
+
+export { indexGet, signUpGet, signUpPost, logInPost, logOutPost }

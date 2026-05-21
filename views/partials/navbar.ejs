@@ -13,26 +13,7 @@
         <% if (locals.user) { %>
             <a href='/'>Home</a>
             <a href="/log-out">Log out</a>
-            <a href="/createPost">Post</a>
-        <% } %>
-
-        <% if (locals.user && !locals.user.ismember) { %>
-            <a href="/member">Become a member</a>
-        <% } %>
-
-        <% if (locals.user && locals.user.ismember && !locals.user.isadmin) { %>
-            <a href="/admin">Become an admin</a>
+            <a href="/createPost">Upload file</a>
         <% } %>
     </div>
-    <% if (locals.user) { %>
-        <div>
-            Current status: <% if (!locals.user.ismember) { %>
-                <span>Not a member</span>
-            <% } else if(!locals.user.isadmin) { %>
-                <span>Member</span>
-            <% } else { %>
-                <span>Admin</span>
-            <% } %>
-        </div>
-    <% } %>
 </nav>

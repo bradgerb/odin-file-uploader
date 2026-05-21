@@ -1,0 +1,98 @@
+*{
+    margin: 0;
+}
+
+.bodyContainer {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-around; 
+    align-items: center;
+    color: white;
+    background-color: #333;
+    padding: 1rem;
+}
+
+.navLinks > a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border: 1px solid white;
+    border-radius: 4px;
+}
+
+.navLinks {
+    display: flex;
+    gap: 10px;
+}
+
+li {
+    list-style-type: none;
+}
+
+.center {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(200, 200, 200);
+}
+
+form > button {
+    width: 100%;
+}
+
+.cardContainer{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto;
+    margin: 30px 20px 30px 20px;
+    gap: 20px;
+    height: max-content;
+}
+
+.card {
+    background-color: white;
+    background-image: linear-gradient(to right, #f0b429 5px, transparent 5px);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: all 0.3s ease;
+    border: 1px solid #e8e8e8;
+    max-width: 400px;
+    max-height: 250px;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+}
+
+.card .content {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #333;
+    line-height: 1.5;
+}
+
+.card span {
+    font-size: 0.875rem;
+    color: #666;
+    font-weight: normal;
+}
+
+.card hr {
+    margin: 8px 0;
+    border: none;
+    border-top: 1px solid #e8e8e8;
+}
+
+.flexCenter {
+    display: flex;
+    align-items: center;
+}
