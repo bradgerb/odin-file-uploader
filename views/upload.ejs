@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="bodyContainer">
+    <%- include("partials/navbar.ejs") %>
+    <div class="center">
+        <div class="card">
+            <form action="/profile" method="post" enctype="multipart/form-data">
+                <input type="file" name="avatar" /><br><br>
+                <button type="submit">Upload</button>
+            </form>
+        </div>
+    </div>
+  </div>
+</body>
+</html>

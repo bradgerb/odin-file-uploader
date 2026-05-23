@@ -56,7 +56,7 @@ form > button {
     height: max-content;
 }
 
-.card {
+.card, .folders {
     background-color: white;
     background-image: linear-gradient(to right, #f0b429 5px, transparent 5px);
     border-radius: 12px;

@@ -71,7 +71,7 @@ const indexGet = async (req, res) => {
     // const messages = await db.getMessages();
     req.session.messages = [];
     res.render("index", { 
-      title: 'Log in',
+      title: 'Home',
       user: req.user,
       errors: errors,
       // messages: messages,
@@ -144,4 +144,8 @@ const logOutPost = (req, res, next) => {
   });
 };
 
-export { indexGet, signUpGet, signUpPost, logInPost, logOutPost }
+const uploadGet = (req, res) => {
+    res.render("upload", {title: 'Upload'});
+};
+
+export { indexGet, signUpGet, signUpPost, logInPost, logOutPost, uploadGet }
