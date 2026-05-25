@@ -12,19 +12,30 @@ datasource db {
   provider = "postgresql"
 }
 
-model User { 
-  id    Int     @id @default(autoincrement()) 
-  username String  @unique
-  password  String
-  files File[]
+model User {
+  id       Int      @id @default(autoincrement())
+  username String   @unique
+  password String
+  folders  Folder[]
+  files    File[]
 }
 
-model File { 
-  id        Int     @id @default(autoincrement()) 
-  title     String
-  content   String?
-  author    User    @relation(fields: [authorId], references: [id]) 
-  authorId  Int
+model Folder {
+  id     Int    @id @default(autoincrement())
+  title  String
+  file   File[]
+  user   User?  @relation(fields: [userId], references: [id])
+  userId Int?
+}
+
+model File {
+  id       Int     @id @default(autoincrement())
+  title    String
+  content  String?
+  author   User    @relation(fields: [authorId], references: [id])
+  authorId Int
+  folder   Folder? @relation(fields: [folderId], references: [id])
+  folderId Int?
 }
 
 model Session {

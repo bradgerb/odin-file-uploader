@@ -43,7 +43,7 @@ li {
     background-color: rgb(200, 200, 200);
 }
 
-form > button {
+.largeButton {
     width: 100%;
 }
 
@@ -56,7 +56,7 @@ form > button {
     height: max-content;
 }
 
-.card, .folders {
+.card, .folderNav {
     background-color: white;
     background-image: linear-gradient(to right, #f0b429 5px, transparent 5px);
     border-radius: 12px;
@@ -95,4 +95,20 @@ form > button {
 .flexCenter {
     display: flex;
     align-items: center;
+}
+
+.folderNav {
+    width: 100%;
+    grid-column: 1 / -1;
+    justify-self: center;
+    white-space: nowrap;
+}
+
+.folderContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto;
+    margin: 30px 20px 30px 20px;
+    gap: 20px;
+    height: max-content;
 }
