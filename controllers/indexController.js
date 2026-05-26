@@ -22,7 +22,7 @@ const validateFolder = [
   body("addFolder").trim().escape()
     .isLength({min: 1, max: 20}).withMessage('Folder names must be between 1 and 20 characters.')
     .isAlphanumeric().withMessage('Folder names must be alphanumeric'),
-]
+];
 
 passport.use(
   new LocalStrategy(async (username, password, done) => {
@@ -137,7 +137,7 @@ const signUpPost = [
       }
     }
   }
-] 
+];
 
 const logInPost = [
   validateUser, 
@@ -148,7 +148,7 @@ const logInPost = [
       failureMessage: true
     })(req, res, next);
   }
-]
+];
 
 const logOutPost = (req, res, next) => {
   req.logout((err) => {
@@ -160,20 +160,43 @@ const logOutPost = (req, res, next) => {
 };
 
 const uploadGet = (req, res) => {
-    res.render("upload", {title: 'Upload'});
+  res.render("upload", {title: 'Upload'});
 };
 
-const addFolderGet = [
+const addFolderPost = [
   validateFolder,
-  (req, res) => {
+  async (req, res) => {
     const errors = validationResult(req);
     let errorMsgArray = [];
     errors.array().forEach(error => {
       errorMsgArray.push(error.msg);
     });
 
+    const { addFolder } = matchedData(req);
+
+    await prisma.folder.create({
+      data: {
+        title: addFolder,
+        user: {
+          connect: { id: req.user.id }
+        }
+      }
+    });
+
     res.redirect("/");
   }
-]
+];
 
-export { indexGet, signUpGet, signUpPost, logInPost, logOutPost, uploadGet, addFolderGet }
+const deleteFolderPost = (req, res) => {
+  res.redirect("/");
+};
+
+const editFolderPost = (req, res) => {
+  res.redirect("/");
+};
+
+const fileFolderPost = (req, res) => {
+  res.redirect("/");
+};
+
+export { indexGet, signUpGet, signUpPost, logInPost, logOutPost, uploadGet, addFolderPost, deleteFolderPost, editFolderPost, fileFolderPost }
