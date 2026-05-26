@@ -21,7 +21,7 @@ const validateUser = [
 const validateFolder = [
   body("addFolder").trim().escape()
     .isLength({min: 1, max: 20}).withMessage('Folder names must be between 1 and 20 characters.')
-    .isAlphanumeric().withMessage('Folder names must be alphanumeric'),
+    .isAlphanumeric('en-US', {ignore: ' '}).withMessage('Folder names must be alphanumeric'),
 ];
 
 passport.use(
@@ -83,7 +83,11 @@ const usernameCheck = async (username) => {
 const indexGet = async (req, res) => {
     const errors = req.session.messages || [];
     req.session.messages = [];
-    const folders = req.user.folders;
+    let folders;
+
+    if(req.user){
+      folders = req.user.folders;
+    }
 
     res.render("index", { 
       title: 'Home',
@@ -171,18 +175,26 @@ const addFolderPost = [
     errors.array().forEach(error => {
       errorMsgArray.push(error.msg);
     });
-
+    const folders = req.user.folders;
     const { addFolder } = matchedData(req);
 
-    await prisma.folder.create({
-      data: {
-        title: addFolder,
-        user: {
-          connect: { id: req.user.id }
+     if(errorMsgArray.length > 0){
+        return res.status(400).render("index", { 
+          title: 'Home',
+          user: req.user,
+          errors: errorMsgArray,
+          folders: folders,
+        });
+    } else {
+      await prisma.folder.create({
+        data: {
+          title: addFolder,
+          user: {
+            connect: { id: req.user.id }
+          }
         }
-      }
-    });
-
+      });
+    }
     res.redirect("/");
   }
 ];
