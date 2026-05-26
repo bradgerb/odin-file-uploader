@@ -1,4 +1,4 @@
-const prisma = require("./lib/prisma.js");
+import { prisma } from "./lib/prisma.js";
 
 async function main() {
   // Create a new user with a post
@@ -6,15 +6,17 @@ async function main() {
     data: {
       username: "alice",
       password: "fakeexample",
-      files: {
+      folders: {
         create: {
-          title: "Hello World",
-          content: "File is here",
+          title: "Default",
+          files: {
+            create: {
+              title: "Hello world",
+              content: "Test 1",
+            }
+          },
         },
       },
-    },
-    include: {
-      files: true,
     },
   });
   console.log("Created user:", user);
@@ -22,7 +24,7 @@ async function main() {
   // Fetch all users with their posts
   const allUsers = await prisma.user.findMany({
     include: {
-      posts: true,
+      folders: true,
     },
   });
   console.log("All users:", JSON.stringify(allUsers, null, 2));
