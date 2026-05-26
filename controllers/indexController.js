@@ -187,7 +187,13 @@ const addFolderPost = [
   }
 ];
 
-const deleteFolderPost = (req, res) => {
+const deleteFolderPost = async (req, res) => {
+  const folderId = parseInt(req.body.folder_id, 10);
+
+  await prisma.folder.delete({
+      where: { id: folderId }
+    });
+
   res.redirect("/");
 };
 
