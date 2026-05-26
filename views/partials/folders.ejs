@@ -1,21 +1,26 @@
 <div class="center">
     <div class="folderContainer">
+        <%- include("./errors.ejs") %>
         <nav class="folderNav">
             <form action="/addFolder" method="POST">
                 <input id="addFolder" name="addFolder" type="text"> <button type="submit">Add a folder</button>
             </form>
         </nav>
-        <div class="card">
-            folderNav go here
-        </div>
-        <div class="card">
-            test2
-        </div>
-        <div class="card">
-            test3
-        </div>
-        <div class="card">
-            test4
-        </div>
+        <% folders.forEach((folder) => { %>
+            <div class="card">
+                <%- folder.title %>
+                <div class="buttonContainer">
+                    <form action="/deleteFolder" method="POST">
+                        <button type="submit" name="folder_id" value="<%= folder.id %>" class="deleteFolderBtn"></button>
+                    </form>
+                    <form action="/editFolder" method="POST">
+                        <button type="submit" name="folder_id" value="<%= folder.id %>" class="editFolderBtn"></button>
+                    </form>
+                    <form action="/fileFolder" method="POST">
+                        <button type="submit" name="folder_id" value="<%= folder.id %>" class="fileFolderBtn"></button>
+                    </form>
+                </div>
+            </div>
+        <% }); %>
     </div>
 </div>

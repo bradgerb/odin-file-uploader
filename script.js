@@ -1,7 +1,7 @@
 import { prisma } from "./lib/prisma.js";
 
 async function main() {
-  // Create a new user with a post
+  // Create a new user with a folder and file
   const user = await prisma.user.create({
     data: {
       username: "alice",
@@ -21,7 +21,7 @@ async function main() {
   });
   console.log("Created user:", user);
 
-  // Fetch all users with their posts
+  // Fetch all users with their folders
   const allUsers = await prisma.user.findMany({
     include: {
       folders: true,

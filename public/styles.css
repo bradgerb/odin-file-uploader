@@ -112,3 +112,41 @@ li {
     gap: 20px;
     height: max-content;
 }
+
+.buttonContainer {
+    display: flex;
+    gap: 5px;
+}
+
+.deleteFolderBtn {
+    background-image: url('/trash-can.svg');
+}
+
+.editFolderBtn {
+    background-image: url('/edit.svg');
+}
+
+.fileFolderBtn {
+    background-image: url('/folder.svg');
+}
+
+.editFolderBtn, .deleteFolderBtn, .fileFolderBtn {
+    width: 1rem;
+    height: 1rem;
+    background-size: contain;
+    background-repeat: no-repeat;
+    border: none;
+    background-color: transparent;
+}
+
+.deleteFolderBtn:hover {
+    filter: drop-shadow(0px 0px 3px red);
+}
+
+.editFolderBtn:hover {
+    filter: drop-shadow(0px 0px 3px blue);
+}
+
+.fileFolderBtn:hover {
+    filter: drop-shadow(0px 0px 3px green);
+}

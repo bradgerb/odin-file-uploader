@@ -18,6 +18,12 @@ const validateUser = [
     })
 ];
 
+const validateFolder = [
+  body("addFolder").trim().escape()
+    .isLength({min: 1, max: 20}).withMessage('Folder names must be between 1 and 20 characters.')
+    .isAlphanumeric().withMessage('Folder names must be alphanumeric'),
+]
+
 passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
@@ -77,11 +83,13 @@ const usernameCheck = async (username) => {
 const indexGet = async (req, res) => {
     const errors = req.session.messages || [];
     req.session.messages = [];
+    const folders = req.user.folders;
 
     res.render("index", { 
       title: 'Home',
       user: req.user,
       errors: errors,
+      folders: folders,
      });
 };
 
@@ -155,4 +163,17 @@ const uploadGet = (req, res) => {
     res.render("upload", {title: 'Upload'});
 };
 
-export { indexGet, signUpGet, signUpPost, logInPost, logOutPost, uploadGet }
+const addFolderGet = [
+  validateFolder,
+  (req, res) => {
+    const errors = validationResult(req);
+    let errorMsgArray = [];
+    errors.array().forEach(error => {
+      errorMsgArray.push(error.msg);
+    });
+
+    res.redirect("/");
+  }
+]
+
+export { indexGet, signUpGet, signUpPost, logInPost, logOutPost, uploadGet, addFolderGet }
