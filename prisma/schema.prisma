@@ -17,13 +17,12 @@ model User {
   username String   @unique
   password String
   folders  Folder[]
-  files    File[]
 }
 
 model Folder {
   id     Int    @id @default(autoincrement())
   title  String
-  file   File[]
+  files   File[]
   user   User?  @relation(fields: [userId], references: [id])
   userId Int?
 }
@@ -32,8 +31,6 @@ model File {
   id       Int     @id @default(autoincrement())
   title    String
   content  String?
-  author   User    @relation(fields: [authorId], references: [id])
-  authorId Int
   folder   Folder? @relation(fields: [folderId], references: [id])
   folderId Int?
 }
