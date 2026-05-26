@@ -1,4 +1,3 @@
-// const db = require ('../db/queries');
 // const CustomNotFoundError = require("../errors/CustomNotFoundError");
 import { body, validationResult, matchedData } from 'express-validator';
 import passport from 'passport';
@@ -52,7 +51,16 @@ passport.deserializeUser(async (id, done) => {
       if (isNaN(parsedId)) {
         return done(null, null);
       }
-    const user = await prisma.user.findFirst({ where: { id: parsedId } });
+    const user = await prisma.user.findFirst({ 
+      where: { id: parsedId },
+      include: {
+        folders: {
+          include: {
+            files: true,
+          },
+        },
+      },
+    });
 
     done(null, user);
   } catch(err) {
@@ -68,13 +76,12 @@ const usernameCheck = async (username) => {
 
 const indexGet = async (req, res) => {
     const errors = req.session.messages || [];
-    // const messages = await db.getMessages();
     req.session.messages = [];
+
     res.render("index", { 
       title: 'Home',
       user: req.user,
       errors: errors,
-      // messages: messages,
      });
 };
 
