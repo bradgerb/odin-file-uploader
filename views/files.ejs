@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <%- include("partials/navbar.ejs") %>
+    <div class="bodyContainer">
+        <div class="center">
+            <% files.forEach((file) => { %>
+                <div class="card">
+                    <%- file.title %>
+                    <div class="buttonContainer">
+                        <form action="/deleteFolder" method="POST">
+                            <button type="submit" name="file_id" value="<%= file.id %>" class="deleteFileBtn"></button>
+                        </form>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+</body>
+</html>

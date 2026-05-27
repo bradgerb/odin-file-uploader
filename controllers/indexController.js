@@ -131,7 +131,7 @@ const signUpPost = [
           password: hashedPassword
         },
         include: {
-          files: true
+          folders: true
         }
       });
       res.redirect("/");
@@ -213,8 +213,20 @@ const editFolderPost = (req, res) => {
   res.redirect("/");
 };
 
-const fileFolderPost = (req, res) => {
-  res.redirect("/");
+const fileFolderPost = async (req, res) => {
+  const folderID = parseInt(req.body.folder_id, 10);
+
+  const folder = await prisma.folder.findUnique({
+    where: { id: folderID },
+    include: { files: true },
+  });
+
+  const files = folder.files;
+
+  res.render("files", {
+    title: 'Files',
+    files: files,
+  });
 };
 
 export { indexGet, signUpGet, signUpPost, logInPost, logOutPost, uploadGet, addFolderPost, deleteFolderPost, editFolderPost, fileFolderPost }
