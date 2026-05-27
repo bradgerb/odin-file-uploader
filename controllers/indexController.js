@@ -163,8 +163,15 @@ const logOutPost = (req, res, next) => {
   });
 };
 
-const uploadGet = (req, res) => {
-  res.render("upload", {title: 'Upload'});
+const uploadGet = async (req, res) => {
+  const folders = await prisma.folder.findMany({
+    where: { userId: req.user.id }
+  });
+
+  res.render("upload", {
+    title: 'Upload',
+    folders: folders,
+  });
 };
 
 const addFolderPost = [

@@ -11,6 +11,12 @@
     <div class="center">
         <div class="card">
             <form action="/profile" method="post" enctype="multipart/form-data">
+                <select name="folder" id="folder">
+                  <% folders.forEach((folder) => { %>
+                    <option value='<%= folder.title %>'><%= folder.title %></option>
+                  <% }) %>
+                </select>
+                <label for="folder">Choose a folder</label><br><br>
                 <input type="file" name="avatar" /><br><br>
                 <button type="submit" class="largeButton">Upload</button>
             </form>

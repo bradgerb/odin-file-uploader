@@ -9,16 +9,18 @@
     <%- include("partials/navbar.ejs") %>
     <div class="bodyContainer">
         <div class="center">
-            <% files.forEach((file) => { %>
-                <div class="card">
-                    <%- file.title %>
-                    <div class="buttonContainer">
-                        <form action="/deleteFolder" method="POST">
-                            <button type="submit" name="file_id" value="<%= file.id %>" class="deleteFileBtn"></button>
-                        </form>
+            <div class="fileContainer">
+                <% files.forEach((file) => { %>
+                    <div class="card">
+                        <%- file.title %>
+                        <div class="buttonContainer">
+                            <form action="/deleteFolder" method="POST">
+                                <button type="submit" name="file_id" value="<%= file.id %>" class="deleteFileBtn"></button>
+                            </form>
+                        </div>
                     </div>
-                </div>
-            <% }); %>
+                <% }); %>
+            </div>
         </div>
     </div>
 </body>
