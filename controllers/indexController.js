@@ -210,13 +210,43 @@ const deleteFolderPost = async (req, res) => {
   const folderId = parseInt(req.body.folder_id, 10);
 
   await prisma.folder.delete({
-      where: { id: folderId }
-    });
+    where: { id: folderId }
+  });
 
   res.redirect("/");
 };
 
-const editFolderPost = (req, res) => {
+const editFolderPost = async (req, res) => {
+  const folderId = parseInt(req.body.folder_id, 10);
+
+  const folder = await prisma.folder.findUnique({
+    where: { id: folderId },
+  })
+
+  await prisma.folder.update({
+    where: { id: folderId },
+    data: { edit: !folder.edit }
+  })
+
+  res.redirect("/");
+};
+
+const updateFolderPost = async (req, res) => {
+  const newTitle = req.body.updateFolder;
+  const folderId = parseInt(req.body.folder_id, 10);
+
+  const folder = await prisma.folder.findUnique({
+    where: { id: folderId },
+  })
+
+  await prisma.folder.update({
+    where: { id: folderId },
+    data: { 
+      title: newTitle,
+      edit: !folder.edit,
+     }
+  })
+
   res.redirect("/");
 };
 
@@ -236,4 +266,4 @@ const fileFolderPost = async (req, res) => {
   });
 };
 
-export { indexGet, signUpGet, signUpPost, logInPost, logOutPost, uploadGet, addFolderPost, deleteFolderPost, editFolderPost, fileFolderPost }
+export { indexGet, signUpGet, signUpPost, logInPost, logOutPost, uploadGet, addFolderPost, deleteFolderPost, editFolderPost, updateFolderPost, fileFolderPost }

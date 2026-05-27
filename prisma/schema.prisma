@@ -22,7 +22,8 @@ model User {
 model Folder {
   id     Int    @id @default(autoincrement())
   title  String
-  files   File[]
+  edit   Boolean @default(false)
+  files  File[]
   user   User?  @relation(fields: [userId], references: [id])
   userId Int?
 }

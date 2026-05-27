@@ -8,7 +8,15 @@
         </nav>
         <% folders.forEach((folder) => { %>
             <div class="card">
-                <%- folder.title %>
+                <% if(!folder.edit){ %>
+                    <%- folder.title %>
+                <% } else { %>
+                    <form action="/updateFolder" method="POST">
+                        <input id="updateFolder" name="updateFolder" type="text" value=<%- folder.title %>>
+                        <input type="hidden" name="folder_id" value="<%= folder.id %>">
+                        <button type="submit">Update</button>
+                    </form>
+                <% } %>
                 <div class="buttonContainer">
                     <form action="/deleteFolder" method="POST">
                         <button type="submit" name="folder_id" value="<%= folder.id %>" class="deleteFolderBtn"></button>
