@@ -24,6 +24,12 @@ const validateFolder = [
     .isAlphanumeric('en-US', {ignore: ' '}).withMessage('Folder names must be alphanumeric'),
 ];
 
+const validateFolderUpdate = [
+  body("updateFolder").trim().escape()
+    .isLength({min: 1, max: 20}).withMessage('Folder names must be between 1 and 20 characters.')
+    .isAlphanumeric('en-US', {ignore: ' '}).withMessage('Folder names must be alphanumeric'),
+];
+
 passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
@@ -231,24 +237,44 @@ const editFolderPost = async (req, res) => {
   res.redirect("/");
 };
 
-const updateFolderPost = async (req, res) => {
-  const newTitle = req.body.updateFolder;
-  const folderId = parseInt(req.body.folder_id, 10);
+const updateFolderPost = [
+  validateFolderUpdate,
+    async (req, res) => {
 
-  const folder = await prisma.folder.findUnique({
-    where: { id: folderId },
-  })
+      const errors = validationResult(req);
+      let errorMsgArray = [];
+      errors.array().forEach(error => {
+        errorMsgArray.push(error.msg);
+      });
 
-  await prisma.folder.update({
-    where: { id: folderId },
-    data: { 
-      title: newTitle,
-      edit: !folder.edit,
-     }
-  })
+    const { updateFolder } = matchedData(req);
+    const newTitle = updateFolder;
+    const folderId = parseInt(req.body.folder_id, 10);
+    const folders = req.user.folders;
 
-  res.redirect("/");
-};
+    if(errorMsgArray.length > 0){
+        return res.status(400).render("index", { 
+          title: 'Home',
+          user: req.user,
+          updateErrors: errorMsgArray,
+          folders: folders,
+        });
+    } else {
+      const folder = await prisma.folder.findUnique({
+        where: { id: folderId },
+      })
+
+      await prisma.folder.update({
+        where: { id: folderId },
+        data: { 
+          title: newTitle,
+          edit: !folder.edit,
+        }
+      })
+    }
+    res.redirect("/");
+  }
+];
 
 const fileFolderPost = async (req, res) => {
   const folderID = parseInt(req.body.folder_id, 10);

@@ -11,6 +11,7 @@
                 <% if(!folder.edit){ %>
                     <%- folder.title %>
                 <% } else { %>
+                    <%- include("./updateErrors.ejs") %>
                     <form action="/updateFolder" method="POST">
                         <input id="updateFolder" name="updateFolder" type="text" value=<%- folder.title %>>
                         <input type="hidden" name="folder_id" value="<%= folder.id %>">
