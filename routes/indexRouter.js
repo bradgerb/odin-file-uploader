@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import pkg from 'multer';
 const multer = pkg;
-import { indexGet, signUpGet, signUpPost, logInPost, logOutPost, uploadGet, addFolderPost, deleteFolderPost, editFolderPost, updateFolderPost, fileFolderPost, uploadPost } from '../controllers/indexController.js';
+import { indexGet, signUpGet, signUpPost, logInPost, logOutPost, uploadGet, addFolderPost, deleteFolderPost, editFolderPost, updateFolderPost, fileFolderPost, deleteFilePost, uploadPost } from '../controllers/indexController.js';
 const indexRouter = Router();
 const upload = multer({ dest: 'uploads/' })
 
@@ -16,6 +16,7 @@ indexRouter.post("/deleteFolder", deleteFolderPost);
 indexRouter.post("/editFolder", editFolderPost);
 indexRouter.post("/updateFolder", updateFolderPost);
 indexRouter.post("/fileFolder", fileFolderPost);
+indexRouter.post("/deleteFile", deleteFilePost);
 indexRouter.post("/upload", upload.single('file'), uploadPost);
 
 export default indexRouter;

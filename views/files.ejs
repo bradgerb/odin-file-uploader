@@ -12,9 +12,10 @@
             <div class="fileContainer">
                 <% files.forEach((file) => { %>
                     <div class="card">
-                        <%- file.title %>
+                        <%- file.title %><br>
+                        <%- file.size %> bytes
                         <div class="buttonContainer">
-                            <form action="/deleteFolder" method="POST">
+                            <form action="/deleteFile" method="POST">
                                 <button type="submit" name="file_id" value="<%= file.id %>" class="deleteFileBtn"></button>
                             </form>
                         </div>

@@ -118,7 +118,7 @@ li {
     gap: 5px;
 }
 
-.deleteFolderBtn {
+.deleteFolderBtn, .deleteFileBtn {
     background-image: url('/trash-can.svg');
 }
 
@@ -130,7 +130,7 @@ li {
     background-image: url('/folder.svg');
 }
 
-.editFolderBtn, .deleteFolderBtn, .fileFolderBtn {
+.editFolderBtn, .deleteFolderBtn, .fileFolderBtn, .deleteFileBtn {
     width: 1rem;
     height: 1rem;
     background-size: contain;
@@ -139,7 +139,7 @@ li {
     background-color: transparent;
 }
 
-.deleteFolderBtn:hover {
+.deleteFolderBtn:hover, .deleteFileBtn:hover {
     filter: drop-shadow(0px 0px 3px red);
 }
 

@@ -13,11 +13,11 @@
             <form action="/upload" method="POST" enctype="multipart/form-data">
                 <select name="folder" id="folder">
                   <% folders.forEach((folder) => { %>
-                    <option value='<%= folder.title %>'><%= folder.title %></option>
+                    <option value='<%= folder.id %>'><%= folder.title %></option>
                   <% }) %>
                 </select>
                 <label for="folder">Choose a folder</label><br><br>
-                <input type="file" name="file" /><br><br>
+                <input type="file" name="file" required/><br><br>
                 <button type="submit" class="largeButton">Upload</button>
             </form>
         </div>

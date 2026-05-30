@@ -292,10 +292,30 @@ const fileFolderPost = async (req, res) => {
   });
 };
 
-const uploadPost = (req, res) => {
-  console.log(req.body.folder);
+const deleteFilePost = async (req, res) => {
+  res.redirect("/");
+}
+
+const uploadPost = async (req, res) => {
+
+  const folderId = parseInt(req.body.folder, 10);
+
+  const folder = await prisma.folder.findUnique({
+    where: { id: folderId },
+  });
+
+  await prisma.file.create({
+        data: {
+          title: req.file.originalname,
+          size: req.file.size,
+          folder: {
+            connect: { id: folder.id }
+          }
+        }
+      });
+
   console.log(req.file);
   res.redirect("/")
 }
 
-export { indexGet, signUpGet, signUpPost, logInPost, logOutPost, uploadGet, addFolderPost, deleteFolderPost, editFolderPost, updateFolderPost, fileFolderPost, uploadPost }
+export { indexGet, signUpGet, signUpPost, logInPost, logOutPost, uploadGet, addFolderPost, deleteFolderPost, editFolderPost, updateFolderPost, fileFolderPost, deleteFilePost, uploadPost }
