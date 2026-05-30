@@ -292,4 +292,10 @@ const fileFolderPost = async (req, res) => {
   });
 };
 
-export { indexGet, signUpGet, signUpPost, logInPost, logOutPost, uploadGet, addFolderPost, deleteFolderPost, editFolderPost, updateFolderPost, fileFolderPost }
+const uploadPost = (req, res) => {
+  console.log(req.body.folder);
+  console.log(req.file);
+  res.redirect("/")
+}
+
+export { indexGet, signUpGet, signUpPost, logInPost, logOutPost, uploadGet, addFolderPost, deleteFolderPost, editFolderPost, updateFolderPost, fileFolderPost, uploadPost }
