@@ -293,6 +293,13 @@ const fileFolderPost = async (req, res) => {
 };
 
 const deleteFilePost = async (req, res) => {
+
+  const fileId = parseInt(req.body.file_id, 10);
+
+  await prisma.file.delete({
+    where: { id: fileId }
+  })
+
   res.redirect("/");
 }
 
@@ -314,8 +321,7 @@ const uploadPost = async (req, res) => {
         }
       });
 
-  console.log(req.file);
-  res.redirect("/")
+  res.redirect("/upload")
 }
 
 export { indexGet, signUpGet, signUpPost, logInPost, logOutPost, uploadGet, addFolderPost, deleteFolderPost, editFolderPost, updateFolderPost, fileFolderPost, deleteFilePost, uploadPost }
