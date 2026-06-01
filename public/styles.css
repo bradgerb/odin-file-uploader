@@ -119,15 +119,15 @@ li {
 }
 
 .deleteFolderBtn, .deleteFileBtn {
-    background-image: url('/trash-can.svg');
+    background-image: url('../img/trash-can.svg');
 }
 
 .editFolderBtn {
-    background-image: url('/edit.svg');
+    background-image: url('../img/edit.svg');
 }
 
 .fileFolderBtn {
-    background-image: url('/folder.svg');
+    background-image: url('../img/folder.svg');
 }
 
 .editFolderBtn, .deleteFolderBtn, .fileFolderBtn, .deleteFileBtn {
